@@ -1,0 +1,43 @@
+[
+    {
+      "query": "song where she begs a guy not to fool her",
+      "song_id": ["0"]
+    },
+    {
+      "query": "receiving threats",
+      "song_id": ["17"]
+    },
+    {
+      "query": "love triangle",
+      "song_id": ["3", "11", "17"]
+    },
+    {
+      "query": "being obssessed with someone",
+      "song_id": ["4", "16"]
+    },
+    {
+      "query": "song about freedom",
+      "song_id": ["80", "86"]
+    },
+    {
+      "query": "song about christmas",
+      "song_id": ["55"]
+    },
+    {
+      "query": "song about feeling lonely",
+      "song_id": ["49"]
+    },
+    {
+      "query": "song about lies",
+      "song_id": ["45", "50"]
+    },
+    {
+      "query": "song about a guy who is dumb",
+      "song_id": ["9"]
+    },
+    {
+      "query": "song about women empowerment",
+      "song_id": ["14"]
+    }
+  ]
+  
