@@ -6,11 +6,11 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 
 
-CSV_FOLDER = "/home/mlt_ml1/Song-RAG-project/IR-IE-course/datasets"
+CSV_FOLDER = "/Users/zoryawka/Desktop/Coding/IR-IE-course/datasets"
 
 # ChromaDB location & collection name
-CHROMA_PATH      = "./advanced_collection"
-COLLECTION_NAME  = "advanced_collection"
+CHROMA_PATH      = "./final_collection"
+COLLECTION_NAME  = "final_collection"
 
 
 def split_lyrics_from_csv(csv_file_path):
@@ -116,6 +116,9 @@ if __name__ == "__main__":
 
         total_indexed += len(chunks)
         print(f"   ✅ Indexed {len(chunks)} chunks from {os.path.basename(csv_path)}")
+    client.persist()
+    print(f"\n🎉 Done! Total chunks indexed (all artists): {total_indexed}")
+    print(f"ChromaDB collection stored at {CHROMA_PATH}, name = {COLLECTION_NAME}")
 
 
 
