@@ -6,7 +6,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 
 
-CSV_FOLDER = "/Users/zoryawka/Desktop/Coding/IR-IE-course/datasets"
+CSV_FOLDER = "/home/mlt_ml1/Song-RAG-project/IR-IE-course/datasets"
 
 # ChromaDB location & collection name
 CHROMA_PATH      = "./advanced_collection"
@@ -119,26 +119,26 @@ if __name__ == "__main__":
 
 
 
-for csv_path in all_csv_paths:
-    chunks = split_lyrics_from_csv(csv_path)
+# for csv_path in all_csv_paths:
+#     chunks = split_lyrics_from_csv(csv_path)
 
-    # Print the first chunk of this artist’s list
-    if chunks:
-        sample = chunks[0]
-        print(f"---\nArtist: {sample.metadata['artist']}")
-        print("Song:", sample.metadata["song_title"])
-        print("Chunk #1 content:")
-        print(sample.page_content)
-        print("Metadata:", sample.metadata, "\n")
-        sample = chunks[500]
-        print(f"---\nArtist: {sample.metadata['artist']}")
-        print("Song:", sample.metadata["song_title"])
-        print("Chunk #1 content:")
-        print(sample.page_content)
-        print("Metadata:", sample.metadata, "\n")
-        sample = chunks[900]
-        print(f"---\nArtist: {sample.metadata['artist']}")
-        print("Song:", sample.metadata["song_title"])
-        print("Chunk #1 content:")
-        print(sample.page_content)
-        print("Metadata:", sample.metadata, "\n")
+#     # Print the first chunk of this artist’s list
+#     if chunks:
+#         sample = chunks[0]
+#         print(f"---\nArtist: {sample.metadata['artist']}")
+#         print("Song:", sample.metadata["song_title"])
+#         print("Chunk #1 content:")
+#         print(sample.page_content)
+#         print("Metadata:", sample.metadata, "\n")
+#         sample = chunks[500]
+#         print(f"---\nArtist: {sample.metadata['artist']}")
+#         print("Song:", sample.metadata["song_title"])
+#         print("Chunk #1 content:")
+#         print(sample.page_content)
+#         print("Metadata:", sample.metadata, "\n")
+#         sample = chunks[900]
+#         print(f"---\nArtist: {sample.metadata['artist']}")
+#         print("Song:", sample.metadata["song_title"])
+#         print("Chunk #1 content:")
+#         print(sample.page_content)
+#         print("Metadata:", sample.metadata, "\n")
