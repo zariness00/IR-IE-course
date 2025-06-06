@@ -4,13 +4,14 @@ import pandas as pd
 import chromadb
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
+from dotenv import load_dotenv
 
 
-CSV_FOLDER = "/Users/zoryawka/Desktop/Coding/IR-IE-course/datasets"
+load_dotenv("playground/genius_api.env")
+csv_folder = os.getenv("CSV_FOLDER")
 
-# ChromaDB location & collection name
-CHROMA_PATH      = "./final_collection"
-COLLECTION_NAME  = "final_collection"
+CHROMA_PATH      = "./my_collection"
+COLLECTION_NAME  = "my_collection"
 
 
 def split_lyrics_from_csv(csv_file_path):
@@ -31,28 +32,23 @@ def split_lyrics_from_csv(csv_file_path):
         chunk_size=500,
         chunk_overlap=20,
     )
-
     chunks = []
     for _, row in df.iterrows():
-        # If your CSV columns are named slightly differently (e.g. "Song" instead of "Title"),
-        # adjust these lookups accordingly.
         artist     = str(row.get("Artist", "")).strip()
         song_title = str(row.get("Title", "")).strip()
         song_album = str(row.get("Album", "")).strip()
-        # If "Year" is missing or non‐numeric, fallback to None
         try:
             song_year = int(row["Year"])
         except Exception:
             song_year = ""
-
         song_lyrics = str(row.get("Lyric", "")).strip()
         if not song_lyrics:
             continue  # skip rows with no lyric text
 
-        # Split this one song’s lyric text into smaller chunks
+        # split this one song’s lyric text into smaller chunks
         docs_for_this_song = splitter.create_documents([song_lyrics])
 
-        # Annotate each chunk with metadata & append to our list
+        # annotate each chunk with metadata & append to my list
         for idx, doc in enumerate(docs_for_this_song, start=1):
             doc.metadata.update({
                 "artist":      artist,
@@ -62,32 +58,25 @@ def split_lyrics_from_csv(csv_file_path):
                 "chunk_index": idx
             })
             chunks.append(doc)
-
     return chunks
 
-# ─── 3) Main ingestion loop ─────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    # 1) Find all CSV files in the folder
-    # all_csv_paths = glob.glob(os.path.join(CSV_FOLDER, "*.csv"))
-    all_csv_paths = glob.glob(os.path.join(CSV_FOLDER, "*.csv"))
+    all_csv_paths = glob.glob(os.path.join(csv_folder, "*.csv"))
     if not all_csv_paths:
-        print(f"No CSVs found in {CSV_FOLDER}. Exiting.")
+        print(f"No CSVs found in {csv_folder}. Exiting.")
         exit(0)
 
-    # 2) Initialize ChromaDB client and collection
     os.makedirs(CHROMA_PATH, exist_ok=True)
     client = chromadb.PersistentClient(path=CHROMA_PATH)
     try:
         collection = client.get_collection(name=COLLECTION_NAME)
     except Exception:
         collection = client.get_or_create_collection(name=COLLECTION_NAME)
-
     total_indexed = 0
 
 
-
-    # 3) Loop over each CSV and ingest its chunks
+    #  Loop over each CSV and ingest its chunks
     for csv_path in all_csv_paths:
         print(f"\nProcessing {os.path.basename(csv_path)} …")
         try:
@@ -104,44 +93,15 @@ if __name__ == "__main__":
         docs      = [chunk.page_content for chunk in chunks]
         ids       = [f"{chunk.metadata['artist'].replace(' ', '_')}_{i}"
                     for i, chunk in enumerate(chunks, start=1)]
-
         metadatas = [chunk.metadata for chunk in chunks]
-
-        # Add to Chroma in one batch
         collection.add(
             documents=docs,
             ids=ids,
             metadatas=metadatas
         )
-
         total_indexed += len(chunks)
-        print(f"   ✅ Indexed {len(chunks)} chunks from {os.path.basename(csv_path)}")
-    client.persist()
-    print(f"\n🎉 Done! Total chunks indexed (all artists): {total_indexed}")
-    print(f"ChromaDB collection stored at {CHROMA_PATH}, name = {COLLECTION_NAME}")
+        print(f"Indexed {len(chunks)} chunks from {os.path.basename(csv_path)}")
+ 
+    print(f"CHECKPOINT: Total chunks indexed (all artists): {total_indexed}")
+    print(f"CHECKPOINT: ChromaDB collection stored at {CHROMA_PATH}, name = {COLLECTION_NAME}")
 
-
-
-# for csv_path in all_csv_paths:
-#     chunks = split_lyrics_from_csv(csv_path)
-
-#     # Print the first chunk of this artist’s list
-#     if chunks:
-#         sample = chunks[0]
-#         print(f"---\nArtist: {sample.metadata['artist']}")
-#         print("Song:", sample.metadata["song_title"])
-#         print("Chunk #1 content:")
-#         print(sample.page_content)
-#         print("Metadata:", sample.metadata, "\n")
-#         sample = chunks[500]
-#         print(f"---\nArtist: {sample.metadata['artist']}")
-#         print("Song:", sample.metadata["song_title"])
-#         print("Chunk #1 content:")
-#         print(sample.page_content)
-#         print("Metadata:", sample.metadata, "\n")
-#         sample = chunks[900]
-#         print(f"---\nArtist: {sample.metadata['artist']}")
-#         print("Song:", sample.metadata["song_title"])
-#         print("Chunk #1 content:")
-#         print(sample.page_content)
-#         print("Metadata:", sample.metadata, "\n")
