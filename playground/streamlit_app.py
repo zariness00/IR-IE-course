@@ -16,7 +16,7 @@ client_openai = OpenAI(api_key=api_key)
 
 
 MAIN_PATH      = os.getenv("COLLECTION_PATH")
-COLLECTION_NAME = "my_collection"
+COLLECTION_NAME = "my_collection_1"
 
 client     = chromadb.PersistentClient(path=MAIN_PATH)
 collection = client.get_or_create_collection(name=COLLECTION_NAME, metadata = {"hnsw:space": "cosine"})

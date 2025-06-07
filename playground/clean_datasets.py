@@ -50,3 +50,7 @@ for csv_path in glob.glob(os.path.join(csv_folder, "*.csv")):
     cleaned_df.to_csv(out_path, index=False)
     print("Checkpoint!!!")
     print(f"Processed {os.path.basename(csv_path)} → {os.path.basename(out_path)}")
+
+
+
+    

@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 load_dotenv("playground/genius_api.env")
 csv_folder = os.getenv("CSV_FOLDER")
 
-CHROMA_PATH      = "./my_collection"
-COLLECTION_NAME  = "my_collection"
+CHROMA_PATH      = "./my_collection_1"
+COLLECTION_NAME  = "my_collection_1"
 
 
 def split_lyrics_from_csv(csv_file_path):
@@ -28,7 +28,7 @@ def split_lyrics_from_csv(csv_file_path):
     """
     df = pd.read_csv(csv_file_path)
     splitter = RecursiveCharacterTextSplitter(
-        separators=[". ", "? ", "! ", "\n", "\r\n"],
+        separators=[". ", "? ", "! ", "\n", "\r\n", "  ", "/n/n"],
         chunk_size=500,
         chunk_overlap=20,
     )

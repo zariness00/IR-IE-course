@@ -5,7 +5,7 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv("api_key.env")
 collection_path = os.getenv("COLLECTION_PATH")
-COLLECTION_NAME  = "my_collection"
+COLLECTION_NAME  = "my_collection_1"
 
 api_key = os.getenv("OPENAI_API_KEY")
 client_openai = OpenAI(api_key=api_key) 
@@ -61,9 +61,10 @@ def make_rag_prompt(query, results):
 # all_ids  = all_data["ids"]                    # list of every ID in the collection
 # print(f"Total IDs: {len(all_ids)}")
 # print(all_ids[1900:1967])
-# #print(collection.get('Billie_Eilish_10'))
-# # print(collection.get('Maroon_5_10'))
-# print(collection.get('Justin_Bieber_1'))
+print(collection.get('Billie_Eilish_10'))
+print(collection.get('Billie_Eilish_11'))
+print(collection.get('Billie_Eilish_12'))
+
 
 """Decoupling-- 
 Retrieval model will focus entirely on finding the most relevant search results, 
