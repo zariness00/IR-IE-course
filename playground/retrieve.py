@@ -11,7 +11,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 client_openai = OpenAI(api_key=api_key) 
 
 client     = chromadb.PersistentClient(path= collection_path)
-collection = client.get_or_create_collection(name=COLLECTION_NAME)
+collection = client.get_or_create_collection(name=COLLECTION_NAME, metadata = {"hnsw:space": "cosine"})
 def get_completion(prompt):
     response = client_openai.chat.completions.create(
         model= "gpt-4",

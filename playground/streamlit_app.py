@@ -19,7 +19,7 @@ MAIN_PATH      = os.getenv("COLLECTION_PATH")
 COLLECTION_NAME = "my_collection"
 
 client     = chromadb.PersistentClient(path=MAIN_PATH)
-collection = client.get_or_create_collection(name=COLLECTION_NAME)
+collection = client.get_or_create_collection(name=COLLECTION_NAME, metadata = {"hnsw:space": "cosine"})
 
 def get_completion(prompt):
     response = client_openai.chat.completions.create(

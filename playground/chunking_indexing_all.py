@@ -70,9 +70,9 @@ if __name__ == "__main__":
     os.makedirs(CHROMA_PATH, exist_ok=True)
     client = chromadb.PersistentClient(path=CHROMA_PATH)
     try:
-        collection = client.get_collection(name=COLLECTION_NAME)
+        collection = client.get_collection(name=COLLECTION_NAME, metadata = {"hnsw:space": "cosine"})
     except Exception:
-        collection = client.get_or_create_collection(name=COLLECTION_NAME)
+        collection = client.get_or_create_collection(name=COLLECTION_NAME, metadata = {"hnsw:space": "cosine"})
     total_indexed = 0
 
 
